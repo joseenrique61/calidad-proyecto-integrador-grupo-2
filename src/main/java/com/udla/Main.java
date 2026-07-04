@@ -6,8 +6,7 @@ import com.udla.services.StudentManager;
 /**
  * Punto de entrada de la aplicacion.
  *
- * <p>
- * SRP: Esta clase tiene una unica responsabilidad: orquestar
+ * <p>SRP: Esta clase tiene una unica responsabilidad: orquestar
  * la ejecucion y manejar la presentacion en consola. La logica
  * de negocio (gestion de estudiantes) se delega a StudentManager.
  */
