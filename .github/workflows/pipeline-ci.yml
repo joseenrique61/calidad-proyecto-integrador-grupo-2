@@ -1,0 +1,38 @@
+name: Pipeline CI
+
+on:
+  push:
+    branches:
+      - main 
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  analisis-calidad:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar código
+      uses: actions/checkout@v4
+    
+    - name: Configurar Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: maven
+    
+    - name: Compilar y analizar la calidad del código
+      run: mvn clean verify
+
+    - name: Guardar reportes de calidad
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: reportes-calidad
+        path: target/
+
+    
