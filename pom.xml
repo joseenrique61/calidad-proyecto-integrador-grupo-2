@@ -31,11 +31,6 @@
 
         <!-- Dependency versions -->
         <junit-jupiter.version>5.10.2</junit-jupiter.version>
-
-        <!-- SonarQube properties (update with your server URL and token) -->
-        <sonar-plugin.version>5.7.0.6970</sonar-plugin.version>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <!-- Pass token via CLI: mvn sonar:sonar -Dsonar.token=YOUR_TOKEN -->
     </properties>
 
     <!-- Dependencies -->
@@ -130,13 +125,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-
-            <!-- SonarQube Scanner - Continuous code quality inspection -->
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${sonar-plugin.version}</version>
             </plugin>
 
             <!-- Exec - Run main class directly -->
