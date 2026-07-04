@@ -24,7 +24,7 @@
         <!-- Plugin versions -->
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
-        <maven-jacoco-plugin.version>0.8.12</maven-jacoco-plugin.version>
+        <maven-jacoco-plugin.version>0.8.13</maven-jacoco-plugin.version>
         <maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
         <maven-pmd-plugin.version>3.28.0</maven-pmd-plugin.version>
         <pmd.version>7.21.0</pmd.version>
