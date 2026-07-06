@@ -1,6 +1,7 @@
 package com.udla.services;
 
 import com.udla.model.Student;
+import com.udla.validators.StudentValidator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,12 +17,32 @@ import java.util.List;
  * <p>OCP: Al trabajar con objetos Student en lugar de listas
  * paralelas de tipos primitivos, el manager esta abierto a
  * extension (nuevos campos en Student) sin necesidad de
+ * modificar esta clase. Los validadores se inyectan como
+ * dependencias, permitiendo agregar nuevas reglas sin
  * modificar esta clase.
+ *
+ * <p>DIP: StudentManager depende de la abstraccion
+ * StudentValidator, no de implementaciones concretas.
  */
 public class StudentManager {
 
-  // Lista tipada de estudiantes (OCP: reemplaza las listas raw paralelas)
+  // Typed list of students (OCP: replaces raw parallel lists)
   private final List<Student> students = new ArrayList<>();
+
+  // Pluggable validators executed before adding a student (OCP + DIP)
+  private final List<StudentValidator> validators = new ArrayList<>();
+
+  /**
+   * Registers a validator to be applied on every addStudent call.
+   *
+   * <p>OCP: New validation rules are added here without modifying
+   * existing code — simply register a new StudentValidator implementation.
+   *
+   * @param validator the validation strategy to register
+   */
+  public void addValidator(StudentValidator validator) {
+    validators.add(validator);
+  }
 
   /**
    * Agrega un nuevo estudiante a la coleccion.
@@ -29,12 +50,22 @@ public class StudentManager {
    * <p>SRP: Solo gestiona la logica de agregar. No imprime mensajes
    * en consola; la responsabilidad de presentacion queda fuera.
    *
+   * <p>Runs all registered validators before persisting the student.
+   *
    * @param name  nombre del estudiante
    * @param grade calificacion del estudiante
+   * @throws IllegalArgumentException if any validator rejects the student
    */
   public void addStudent(String name, double grade) {
-    // Crea el objeto Student y lo agrega a la lista
+    // Create the student object
     Student student = new Student(name, grade);
+
+    // Run every registered validator (OCP: loop is closed for modification)
+    for (StudentValidator validator : validators) {
+      validator.validate(student);
+    }
+
+    // Persist the student after all validations pass
     students.add(student);
   }
 

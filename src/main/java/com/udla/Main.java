@@ -2,6 +2,8 @@ package com.udla;
 
 import com.udla.model.Student;
 import com.udla.services.StudentManager;
+import com.udla.validators.MaximumGradeValidator;
+import com.udla.validators.MinimumGradeValidator;
 
 /**
  * Punto de entrada de la aplicacion.
@@ -9,6 +11,10 @@ import com.udla.services.StudentManager;
  * <p>SRP: Esta clase tiene una unica responsabilidad: orquestar
  * la ejecucion y manejar la presentacion en consola. La logica
  * de negocio (gestion de estudiantes) se delega a StudentManager.
+ *
+ * <p>DIP: Main inyecta las implementaciones concretas de
+ * StudentValidator en el manager, actuando como punto de
+ * composicion (Composition Root).
  */
 public class Main {
 
@@ -21,7 +27,11 @@ public class Main {
     // Crea el gestor de estudiantes (logica de negocio)
     StudentManager manager = new StudentManager();
 
-    // Agrega estudiantes a traves del manager
+    // DIP: Inject validators — allowed grade range [0, 100]
+    manager.addValidator(new MinimumGradeValidator(0.0));
+    manager.addValidator(new MaximumGradeValidator(100.0));
+
+    // Agrega estudiantes a traves del manager (now validated)
     manager.addStudent("John Doe", 85.5);
 
     // SRP: La presentacion en consola se maneja aqui, no en StudentManager
